@@ -1,0 +1,7 @@
+{
+ "app": "CBN FULL",
+ "version": 1,
+ "settings": { "prefix": "CBN", "receiptStart": 1, "memberStart": 1, "defaultFee": 3500, "waNumber": "919539637747", "updatedAt": 0 },
+ "receipts": [],
+ "deleted": []
+}

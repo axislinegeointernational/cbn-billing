@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17693a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CBN FULL">
+<title>CBN FULL</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="brand"><span class="brand-mark">CBN</span> FULL</div>
+  <button id="syncPill" class="pill" type="button" title="Sync now">● Local</button>
+</header>
+
+<main>
+  <!-- ============ NEW / EDIT ============ -->
+  <section id="view-new" class="view active">
+    <div class="split">
+      <form id="billForm" class="card form" autocomplete="off">
+        <div class="form-title">
+          <h2 id="formHeading">New Receipt</h2>
+          <button type="button" class="btn ghost sm" id="btnReset">+ New</button>
+        </div>
+
+        <h3>Receipt</h3>
+        <div class="grid2">
+          <label>Receipt No.<input name="receiptNo" required placeholder="Auto"></label>
+          <label>Date<input name="date" type="date" required></label>
+        </div>
+
+        <h3>Member</h3>
+        <div class="grid2">
+          <label>Membership No.<input name="membershipNo" required inputmode="numeric" placeholder="Auto"></label>
+          <label>Title
+            <select name="title">
+              <option>Mr.</option><option>Mrs.</option><option>Ms.</option><option>Dr.</option><option value="">—</option>
+            </select>
+          </label>
+        </div>
+        <label>Member Name<input name="name" required list="dlNames" placeholder="Member full name"></label>
+        <label>Business Name<input name="business" list="dlBusiness" placeholder="Business name"></label>
+        <label>Membership Category<input name="category" list="dlCategory" placeholder="Category"></label>
+        <div class="grid3">
+          <label>Council<input name="council" list="dlCouncil" placeholder="Council"></label>
+          <label>Zone<input name="zone" list="dlZone" placeholder="Zone"></label>
+          <label>Region<input name="region" list="dlRegion" placeholder="Region"></label>
+        </div>
+
+        <h3>Particulars</h3>
+        <div id="items"></div>
+        <button type="button" class="btn ghost sm" id="btnAddItem">+ Add line</button>
+
+        <h3>Payment</h3>
+        <div class="grid2">
+          <label>Payment Mode
+            <select name="paymentMode">
+              <option value="-">-</option><option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Cheque</option><option>Card</option>
+            </select>
+          </label>
+          <label>Transaction / Ref. No.<input name="refNo" placeholder="UPI / cheque ref (optional)"></label>
+        </div>
+
+        <div class="total-line">Total <b id="formTotal">₹ 0.00</b></div>
+
+        <div class="actions sticky">
+          <button type="submit" class="btn primary" id="btnSave">Save &amp; Generate PDF</button>
+        </div>
+      </form>
+
+      <div class="preview-wrap">
+        <div class="preview-head">Live preview</div>
+        <div id="previewFrame" class="preview-frame"><div id="preview"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECORDS ============ -->
+  <section id="view-records" class="view">
+    <div class="card">
+      <input id="search" type="search" placeholder="Search name, business, receipt no…">
+      <div id="recSummary" class="muted small"></div>
+    </div>
+    <div id="recList"></div>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section id="view-settings" class="view">
+    <form id="setForm" class="card form" autocomplete="off">
+      <h3>Numbering</h3>
+      <div class="grid2">
+        <label>Receipt prefix<input name="prefix"></label>
+        <label>Default fee (₹)<input name="defaultFee" type="number" step="0.01"></label>
+        <label>Receipt no. starts at<input name="receiptStart" type="number" min="1"></label>
+        <label>Membership no. starts at<input name="memberStart" type="number" min="1"></label>
+      </div>
+      <p class="muted small" id="nextInfo"></p>
+
+      <h3>WhatsApp log</h3>
+      <label>WhatsApp number (with country code)<input name="waNumber" inputmode="tel"></label>
+      <label class="check"><input type="checkbox" name="autoWa"> Open WhatsApp automatically after saving</label>
+
+      <h3>Cloud JSON (GitHub)</h3>
+      <p class="muted small">Saves every receipt to a JSON file in a GitHub repo, so numbers carry on after the browser cache is cleared. See README.</p>
+      <div class="grid2">
+        <label>Owner (username)<input name="ghOwner" autocapitalize="off"></label>
+        <label>Repo<input name="ghRepo" autocapitalize="off"></label>
+        <label>Branch<input name="ghBranch" autocapitalize="off"></label>
+        <label>File path<input name="ghPath" autocapitalize="off"></label>
+      </div>
+      <label>Token (fine-grained, Contents: Read &amp; write)<input name="ghToken" type="password" autocapitalize="off"></label>
+      <div class="actions"><button type="submit" class="btn primary">Save settings &amp; sync</button></div>
+    </form>
+
+    <div class="card form">
+      <h3>Backup &amp; restore</h3>
+      <div class="actions wrap">
+        <button type="button" class="btn ghost" id="btnExport">Export JSON</button>
+        <label class="btn ghost filebtn">Import JSON<input type="file" id="importFile" accept=".json,application/json" hidden></label>
+      </div>
+      <label>Restore from WhatsApp: paste the chat text (or export it) here
+        <textarea id="waPaste" rows="4" placeholder="Paste messages containing the restore links…"></textarea>
+      </label>
+      <div class="actions"><button type="button" class="btn ghost" id="btnWaRestore">Restore from pasted text</button></div>
+      <hr>
+      <button type="button" class="btn danger sm" id="btnClear">Clear data on this device</button>
+    </div>
+  </section>
+</main>
+
+<nav class="tabbar">
+  <button data-view="new" class="active"><span>＋</span>Bill</button>
+  <button data-view="records"><span>☰</span>Records</button>
+  <button data-view="settings"><span>⚙</span>Settings</button>
+</nav>
+
+<!-- Success / action sheet -->
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-card">
+    <div id="sheetTitle" class="sheet-title"></div>
+    <div id="sheetSub" class="muted small"></div>
+    <div id="sheetBtns" class="sheet-btns"></div>
+    <button type="button" class="btn ghost" id="sheetClose">Close</button>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<datalist id="dlNames"></datalist>
+<datalist id="dlBusiness"></datalist>
+<datalist id="dlCategory"></datalist>
+<datalist id="dlCouncil"></datalist>
+<datalist id="dlZone"></datalist>
+<datalist id="dlRegion"></datalist>
+
+<!-- off-screen receipt used for PDF capture -->
+<div id="exportHost"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
