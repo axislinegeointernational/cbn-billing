@@ -101,9 +101,7 @@ function receiptHTML(r) {
       <polygon points="1224,128 1224,166 1170,208 1132,208" fill="#8cc63f"/>
       <polygon points="1224,166 1224,208 1170,208" fill="#17693a"/>
     </svg>
-    <div class="rc-logo">CBN</div><div class="rc-div"></div>
-    <div class="rc-org">Chamber of<br>Business Network</div>
-    <div class="rc-tag">CONNECT<i>·</i>COLLABORATE<i>·</i>CREATE OPPORTUNITIES<i>·</i>GROW TOGETHER</div>
+    <img class="rc-logoimg" src="assets/cbn-logo.png" alt="CBN Chamber of Business Network">
     <div class="rc-vl"></div>
     <div class="rc-mng">Managed &amp; Operated by<b>Meridian Positive Commune LLP</b></div>
   </div>

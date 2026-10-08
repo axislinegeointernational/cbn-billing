@@ -93,11 +93,7 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 .rc *{box-sizing:border-box}
 .rc-abs{position:absolute;left:0;top:0}
 .rc-head{position:relative;height:208px;flex:none}
-.rc-logo{position:absolute;left:50px;top:24px;font-weight:900;font-size:136px;line-height:1;color:#1f9d4a;letter-spacing:-1px}
-.rc-div{position:absolute;left:346px;top:48px;width:3px;height:90px;background:#14213d}
-.rc-org{position:absolute;left:370px;top:40px;font-weight:600;font-size:47px;line-height:1.02;color:#14213d}
-.rc-tag{position:absolute;left:57px;top:155px;font-size:16.5px;font-weight:500;letter-spacing:2.5px;color:#14213d;white-space:nowrap}
-.rc-tag i{font-style:normal;margin:0 14px}
+.rc-logoimg{position:absolute;left:52px;top:44px;width:716px;height:auto}
 .rc-vl{position:absolute;left:804px;top:46px;width:2px;height:118px;background:#1f9d4a}
 .rc-mng{position:absolute;left:859px;top:66px;font-size:19.5px;color:#2b3550;line-height:1.35}
 .rc-mng b{display:block;font-size:22.5px;font-weight:700;color:#14213d}
